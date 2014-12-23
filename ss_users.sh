@@ -28,21 +28,21 @@ for i in `mysql -e 'use sentora_core; select ac_user_vc from x_accounts' | grep 
 	#See if the Linux user already exists
 	usercheck=$(finger $userid 2>&1 | grep -c "no such user")
 	if [[ $usercheck -ne 0 ]]; 
-		then echo "A user needs to be created for $i";
+		then echo "A Linux user needs to be created for $i";
 		
-		#Setup jailed
+		#Setup jailed SFTP
 		useradd $userid; usermod -d /$userid -s /sbin/nologin $userid
-		sed -i s/Subsystem/\#Subsystem/g /etc/ssh/sshd_config
-		echo -e "Subsystem\tsftp\tinternal-sftp\nAllowUsers $userid \nMatch User $userid\n\tChrootDirectory /var/sentora/hostdata/\n\tForceCommand internal-sftp\n\tX11Forwarding no\n\tAllowTcpForwarding no" >> /etc/ssh/sshd_config
-		#Follow this guide http://meshfields.de/sftp-chroot-centos/
-		#And this one http://www.thegeekstuff.com/2012/03/chroot-sftp-setup/
+		echo "$userid:$pass" | chpasswd -m
+		
+		
+
 		
 		
 	elif [[ $usercheck -eq 0 ]]; 
-		then echo "A user $i exists";
+		then echo "The user $i exists";
 		passcheck=$(grep $i /etc/shadow | cut -d: -f2)
 		#Make sure the current password is being used
-		echo 'Are the FTP and Linux passwords the same for $userid?' 
+		echo "Are the FTP and Linux passwords the same for $userid'?'" 
 		if [[ $(grep -c $md5pass /etc/shadow) -gt 0 ]]
 			then echo "Yes"
 			else echo "No"
@@ -53,6 +53,9 @@ for i in `mysql -e 'use sentora_core; select ac_user_vc from x_accounts' | grep 
 		#...otherwise update to the new password
 	fi;
 	
+	
+	
 	#FIXME - add in Apache RUID2 user configuration
 done
 
+service sshd reload
