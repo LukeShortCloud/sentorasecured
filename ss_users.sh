@@ -1,7 +1,7 @@
 #/bin/bash
 #SENTORA SECURED
 #Linux user creation and password manager cron (and eventually systemd unit-timer)
-#v0.0-1 ALPHA AND NOT WORKING
+#v0.0-2 ALPHA AND NOT WORKING
 # What does this script do?
 # 	-Disables the proftpd service
 #	-Uses FTP credentials from a user that has the same name as the Sentora user to create a Linux user
@@ -13,28 +13,41 @@
 # Tested on CentOS 6 x64. 
 
 # Find all FTP accounts named the same as the Sentora user along with the FTP plain-text password. 
-# User variable = userid , Password variable = passwd
+# User variable = userid , Password variable = pass
 for i in `mysql -e 'use sentora_core; select ac_user_vc from x_accounts' | grep -P "[a-z]*[A-Z]*[0-9]*" | grep -v ac_user_vc`; 
 	#Grab the credentials
 	do useridandpasswd=$(mysql -e 'use sentora_proftpd; select userid,passwd from ftpuser;' | grep $i); 
 	
 	#Sort out the user and pass
 	#FIXME - add verify to make sure the FTP username does not belong to another Sentora username
-	userid=$(echo $useridandpasswd | awk {'print $1'}); passwd=$(echo $useridandpasswd | awk {'print $2'}); 
-	
+	userid=$(echo $useridandpasswd | awk {'print $1'}); pass=$(echo $useridandpasswd | awk {'print $2'}); 
+	echo "$userid $pass"
 	#Convert the password into MD5 encryption
-	md5pass=$(mysql -e "select md5('"$passwd"');" | grep -v md5)
+	md5pass=$(mysql -e "select md5('"$pass"');" | grep -v md5)
 	
 	#See if the Linux user already exists
 	usercheck=$(finger $userid 2>&1 | grep -c "no such user")
 	if [[ $usercheck -ne 0 ]]; 
 		then echo "A user needs to be created for $i";
+		
 		#Setup jailed
+		useradd $userid; usermod -d /$userid -s /sbin/nologin $userid
+		sed -i s/Subsystem/\#Subsystem/g /etc/ssh/sshd_config
+		echo -e "Subsystem\tsftp\tinternal-sftp\nAllowUsers $userid \nMatch User $userid\n\tChrootDirectory /var/sentora/hostdata/\n\tForceCommand internal-sftp\n\tX11Forwarding no\n\tAllowTcpForwarding no" >> /etc/ssh/sshd_config
+		#Follow this guide http://meshfields.de/sftp-chroot-centos/
+		#And this one http://www.thegeekstuff.com/2012/03/chroot-sftp-setup/
+		
+		
 	elif [[ $usercheck -eq 0 ]]; 
 		then echo "A user $i exists";
 		passcheck=$(grep $i /etc/shadow | cut -d: -f2)
-		#Convert FTP password to MD5 and make sure it's being used...
-		
+		#Make sure the current password is being used
+		echo 'Are the FTP and Linux passwords the same for $userid?' 
+		if [[ $(grep -c $md5pass /etc/shadow) -gt 0 ]]
+			then echo "Yes"
+			else echo "No"
+		fi
+
 		#FIXME - finish the check
 		
 		#...otherwise update to the new password
