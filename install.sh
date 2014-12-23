@@ -10,3 +10,5 @@ echo -e "Subsystem\tsftp\tinternal-sftp\nAllowGroups sftpusers\nMatch Group sftp
 groupadd sftpusers
 
 service sshd reload
+
+
