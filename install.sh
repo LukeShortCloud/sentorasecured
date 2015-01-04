@@ -1,5 +1,6 @@
 #!/bin/sh
 ###SENTORA SECURED - Installer
+##v0.0-3 ALPHA AND NOT WORKING
 
 #Create Linux users
 sh ./ss_users.sh
