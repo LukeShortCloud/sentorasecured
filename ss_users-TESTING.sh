@@ -1,7 +1,6 @@
 #/bin/bash
 #SENTORA SECURED
 #Linux user creation and password manager cron (and eventually systemd unit-timer)
-#v0.0-2 ALPHA AND NOT WORKING
 # What does this script do?
 # 	-Disables the proftpd service
 #	-Uses FTP credentials from a user that has the same name as the Sentora user to create a Linux user
