@@ -5,6 +5,9 @@
 #Create Linux users
 sh ./ss_users.sh
 
+#Fix insecure permissions
+sh ./ss_permissions.sh
+
 #Backup the original sshd configuraiton
 cp -a /etc/ssh/sshd_config /etc/ssh/sshd_config.$(date +%m-%d-%Y_%H_%M_%S)
 echo "Your original sshd configuration has been saved to $(\ls -t /etc/ssh/ | head -n 2 | grep -P [0-9])"
