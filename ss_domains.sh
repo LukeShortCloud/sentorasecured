@@ -2,7 +2,9 @@
 #This script will create a list of all of the domains that a user owns to /etc/sentora/trueuserdomains
 
 #Empty/create the build files as well as back up the origianl trueuserdomains.txt
-mv /var/sentora/secured/trueuserdomains.txt /var/sentora/secured/old/trueuserdomains.txt$(date +%m-%d-%Y_%H-%M-%S)
+if [[ -f /var/sentora/secured/trueuserdomains.txt ]]
+	then mv /var/sentora/secured/trueuserdomains.txt /var/sentora/secured/old/trueuserdomains.txt$(date +%m-%d-%Y_%H-%M-%S)
+fi
 > /tmp/users.id; > /tmp/users.name; > /var/sentora/secured/trueuserdomains.txt;
 
 #Find all the user identification numbers
