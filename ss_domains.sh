@@ -1,3 +1,4 @@
+#!/bin/sh
 #This script will create a list of all of the domains that a user owns to /etc/sentora/trueuserdomains
 
 #Empty/create the build files
