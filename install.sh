@@ -1,6 +1,5 @@
 #!/bin/sh
 ###SENTORA SECURED - Installer
-##v0.0-4 ALPHA AND NOT WORKING
 
 #Sort out domains and their respective users
 sh ./ss_domains.sh
