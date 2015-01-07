@@ -7,5 +7,27 @@ useradd $userid; groupadd $userid
 
 #Set home directory for their hostdata folder, change their default group to themselves, and add them to the sftpusers for jailed SFTP access
 usermod -d /var/sentora/hostdata/$userid -g $userid -a -G sftpusers $userid
+#MD5 password encryption is used
 echo "$userid:$pass" | chpasswd -m
 done
+
+
+#Add custom vhosts lines to allow RUID2 to run Apache processes as the actual Linux user instead of "apache" or "nobody"
+for userid in `cat /var/sentora/secured/trueuserdomains.txt | cut -d: -f2 | uniq`;
+  do for domainname in `grep -P "^[0-9]*[0-9]*[0-9]*[0-9]*:${userid}" /var/sentora/secured/trueuserdomains.txt | cut -d: -f3`;
+    do
+mysql -e 'USE sentora_core; UPDATE x_vhosts SET vh_custom_tx="\
+<IfModule !mod_ruid2.c>\
+SuexecUserGroup '"$userid"' '"$userid"'\
+</IfModule>\
+<IfModule mod_ruid2.c>\
+RMode config\
+RUidGid '"$userid"' '"$userid"'\
+RGroups apache\
+</IfModule>" \
+WHERE vh_name_vc="'"$domainname"'";'
+done
+done
+
+#This is now run to rebuild the Apache vhost configuration at /etc/sentora/configs/apache/httpd-vhosts.conf
+/usr/bin/php /etc/sentora/panel/bin/daemon.php 2&>1 /dev/null
