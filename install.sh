@@ -1,6 +1,10 @@
 #!/bin/sh
 ###SENTORA SECURED - Installer
 
+#Set up Sentora Secured's installation directory
+mkdir /var/sentora/secured/ /var/sentora/secured/uninstall/
+chown root.root /var/sentora; chmod 770 /var/sentora/
+
 #Sort out domains and their respective users
 sh ./ss_domains.sh
 
