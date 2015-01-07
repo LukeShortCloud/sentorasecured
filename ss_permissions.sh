@@ -1,3 +1,13 @@
+### PERMISSIONS
+## This is ran as part of the first time installer
+
+#Back up original permission values
+> /tmp/perms; > /tmp/perms.build;
+find /var/sentora/ -name "*" >> /tmp/perms.build;
+find /etc/sentora/ -name "*" >> /tmp/perms.build;
+for i in `cat /tmp/perms.build`; do echo "$(stat ${i} | grep -Po "(-|d|l)(-|r|w|x)(r|w|x)(-|r|w|x)*"):${i} " >> /var/sentora/secured/uninstall/OriginalPermissions.txt; done
+
+
 #For jailed SFTP access to work, folders leading up to their home directory /var/sentora/hostdata/USER/ MUST be owned by the user root and ONLY be writable by the user root.
 chmod 755 /var/sentora; chown root.apache /var/sentora
 chmod 755 /var/sentora/hostdata; chown root.apache /var/sentora/hostdata
