@@ -18,6 +18,7 @@ chmod 755 /var/sentora/hostdata; chown root.apache /var/sentora/hostdata;
 #Correct user permissions for RUID2 so their processes run as the actual Linux user
 for userid in `cat /var/sentora/secured/trueuserdomains.txt | cut -d: -f2 | uniq`;
   do find /var/sentora/hostdata/${userid}/ -name "*" -exec chown ${userid}.${userid} {} \;
+  chown root.${userid} /var/sentora/hostdata/${userid}/
 done
 
 #General Sentora permissions fix
