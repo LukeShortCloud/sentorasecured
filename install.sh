@@ -12,11 +12,11 @@ mysqldump -f sentora_core > /var/sentora/secured/uninstall/sentora_core.sql
 #Sort out domains and their respective users
 sh ./ss_domains.sh
 
-#Fix insecure permissions
-sh ./ss_permissions.sh
-
 #Create Linux users
 sh ./ss_users.sh
+
+#Fix insecure permissions
+sh ./ss_permissions.sh
 
 #Backup the original sshd configuraiton
 cp -a /etc/ssh/sshd_config /var/sentora/secured/uninstall/sshd_config
