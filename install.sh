@@ -1,9 +1,9 @@
 #!/bin/sh
 ###SENTORA SECURED - Installer
-##v0.0
+##v0.1
 
 #Set up Sentora Secured's installation directory
-mkdir /var/sentora/secured/ /var/sentora/secured/uninstall/ /var/sentora/secured/old
+mkdir /var/sentora/secured/ /var/sentora/secured/uninstall/ /var/sentora/secured/old 2&>1 /dev/null
 chown root.root /var/sentora; chmod 770 /var/sentora/
 
 #Backup the original Sentora MySQL database 
