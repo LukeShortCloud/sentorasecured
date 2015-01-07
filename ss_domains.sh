@@ -1,7 +1,8 @@
 #!/bin/sh
 #This script will create a list of all of the domains that a user owns to /etc/sentora/trueuserdomains
 
-#Empty/create the build files
+#Empty/create the build files as well as back up the origianl trueuserdomains.txt
+mv /var/sentora/secured/trueuserdomains.txt /var/sentora/secured/old/trueuserdomains.txt$(date +%m-%d-%Y_%H-%M-%S)
 > /tmp/users.id; > /tmp/users.name; > /var/sentora/secured/trueuserdomains.txt;
 
 #Find all the user identification numbers
@@ -18,7 +19,7 @@ done;
 #Finally create the true user domains file
 for x in `cat /tmp/users.name`;  
 	do id=$(echo $x | cut -d: -f1);
-	for z in `mysql -e 'use sentora_core; select vh_name_vc from x_vhosts where vh_acc_fk="'"$id"'";' | grep -v vh_name_vc`
+	for z in `mysql -e 'use sentora_core; select vh_name_vc from x_vhosts where vh_acc_fk="'"$id"'" AND vh_deleted_ts IS NULL;' | grep -v vh_name_vc`
 		do echo "${x}${z}" >> /var/sentora/secured/trueuserdomains.txt;
 	done;
 done;
