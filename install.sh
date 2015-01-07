@@ -1,6 +1,9 @@
 #!/bin/sh
 ###SENTORA SECURED - Installer
-##v0.0-3 ALPHA AND NOT WORKING
+##v0.0-4 ALPHA AND NOT WORKING
+
+#Sort out domains and their respective users
+sh ./ss_domains.sh
 
 #Create Linux users
 sh ./ss_users.sh
