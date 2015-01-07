@@ -35,7 +35,7 @@ sed -i s/X11Forwarding/\#X11Forwarding/g /etc/ssh/sshd_config
 sed -i s/AllowTcpForwarding/\#AllowTcpForwarding/g /etc/ssh/sshd_config
 
 #Enable jailed SFTP 
-echo -e "Subsystem\tsftp\tinternal-sftp\nAllowGroups root sftpusers\nMatch Group sftpusers\n\tChrootDirectory %h\n\tForceCommand internal-sftp\n\tX11Forwarding no\n\tAllowTcpForwarding no"
+echo -e "Subsystem\tsftp\tinternal-sftp\nAllowGroups root sftpusers\nMatch Group sftpusers\n\tChrootDirectory %h\n\tForceCommand internal-sftp\n\tX11Forwarding no\n\tAllowTcpForwarding no" >> /etc/ssh/sshd_config;
 service sshd restart
 
 
