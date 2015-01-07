@@ -8,7 +8,7 @@ fi
 > /tmp/perms.build;
 find /var/sentora/ -name "*" >> /tmp/perms.build;
 find /etc/sentora/ -name "*" >> /tmp/perms.build;
-for i in `cat /tmp/perms.build`; do echo "$(stat ${i} | grep -Po "(-|d|l)(-|r|w|x)(r|w|x)(-|r|w|x)*"):${i} " >> /var/sentora/secured/uninstall/OriginalPermissions.txt; done
+for i in `cat /tmp/perms.build`; do echo "$(stat ${i} | grep -Po "(-|d|l)(-|r|w|x)(r|w|x)(-|r|w|x)*"):${i} " >> /var/sentora/secured/uninstall/OriginalPermissions.txt 2> /dev/null; done
 
 
 #For jailed SFTP access to work, folders leading up to their home directory /var/sentora/hostdata/USER/ MUST be owned by the user root and ONLY be writable by the user root.
