@@ -1,10 +1,13 @@
 #!/bin/sh
 ###SENTORA SECURED - Installer
-##v0.1
+##v0.1-1
 
 #Set up Sentora Secured's installation directory
 mkdir /var/sentora/secured/ /var/sentora/secured/uninstall/ /var/sentora/secured/old 2&>1 /dev/null
 chown root.root /var/sentora; chmod 770 /var/sentora/
+
+#Disable Pro-FTPD. SSH will be handling SFTP.
+service proftpd stop; chkconfig proftpd off >> /dev/null 2>; systemctl disable proftpd >> /dev/null 2>;
 
 #Backup the original Sentora MySQL database 
 mysqldump -f sentora_core > /var/sentora/secured/uninstall/sentora_core.sql
