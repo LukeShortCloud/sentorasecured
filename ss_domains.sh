@@ -1,5 +1,5 @@
 #!/bin/sh
-#This script will create a list of all of the domains that a user owns to /etc/sentora/trueuserdomains
+#This script will create a list of all of the domains that a user owns to /var/sentora/secured/trueuserdomains.txt
 
 #Empty/create the build files as well as back up the origianl trueuserdomains.txt
 if [[ -f /var/sentora/secured/trueuserdomains.txt ]]
