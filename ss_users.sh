@@ -11,7 +11,7 @@ useradd $userid 2&>1 /dev/null; groupadd $userid 2&>1 /dev/null;
 #Set home directory for their hostdata folder, change their default group to themselves, and add them to the sftpusers for jailed SFTP access
 usermod -d /var/sentora/hostdata/$userid -g $userid -a -G sftpusers $userid;
 #MD5 password encryption is used
-echo "$userid:$pass" | chpasswd -m;
+echo ''$userid':'$pass'' | chpasswd -m;
 done
 
 
