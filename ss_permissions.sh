@@ -19,6 +19,7 @@ chmod 755 /var/sentora/hostdata; chown root.apache /var/sentora/hostdata;
 for userid in `cat /var/sentora/secured/trueuserdomains.txt | cut -d: -f2 | uniq`;
   do find /var/sentora/hostdata/${userid}/ -name "*" -exec chown ${userid}.${userid} {} \;
   chown root.${userid} /var/sentora/hostdata/${userid}/
+  chmod 770 /var/sentora/hostdata/${userid}/;
 done
 
 #General Sentora permissions fix
