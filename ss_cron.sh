@@ -1,5 +1,5 @@
 #!/bin/sh
-### CRON - ss_cron.sh
+### SENTORA SECURED - CRON - ss_cron.sh
 ##This cron job will continually add in any new Linux/SFTP users, reset their FTP password to the current one, and correct permissions.
 
 #Setup new jailed SFTP/Linux users and reset any new passwords
