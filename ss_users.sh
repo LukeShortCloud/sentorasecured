@@ -1,5 +1,6 @@
 #!/bin/sh
-###SENTORA SECURED - Users - Linux user creation
+### SENTORA SECURED - Users - ss_users.sh
+## Linux user creation
 
 #This should be set up as a cron that will continually check for password changes to the FTP user and then change it for the respective Linux user.
 for i in `mysql -e 'use sentora_core; select ac_user_vc from x_accounts' | grep -P "[a-z]*[A-Z]*[0-9]*" | grep -v ac_user_vc`;
