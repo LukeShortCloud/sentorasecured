@@ -19,3 +19,10 @@ done
 
 ##Removing the cron
 echo -e "$(crontab -l | grep -v "/var/sentora/secured")" | crontab -
+
+##Restoring the original SSH configuration file
+mv /etc/ssh/sshd_config /var/sentora/secured/uninstall/sshd_config.uninstall.$(date +%m-%d-%Y_%H-%M-%S) 
+cp -a /var/sentora/secured/uninstall/sshd_config /etc/ssh/sshd_config
+
+##Done
+echo 'Uninstall complete!'
