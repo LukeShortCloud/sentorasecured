@@ -1,6 +1,6 @@
 #!/bin/sh
 ###SENTORA SECURED - Installer
-##v0.1-3
+##v0.2
 
 #Set up Sentora Secured's installation directory
 mkdir /var/sentora/secured/ /var/sentora/secured/uninstall/ /var/sentora/secured/old 2&>1 /dev/null
