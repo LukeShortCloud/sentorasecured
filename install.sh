@@ -16,17 +16,21 @@ mysqldump -f sentora_core > /var/sentora/secured/uninstall/sentora_core.sql
 #Sort out domains and their respective users
 echo "Generating a list of domains and their owners now..."
 sh ./ss_domains.sh
-cp -vf ./ss_users.sh /var/sentora/secured/
+cp -f ./ss_users.sh /var/sentora/secured/
 
 #Create Linux users
 echo "Settings up new Linux users for jailed SFTP..."
 sh ./ss_users.sh
-cp -vf ../ss_users.sh /var/sentora/secured/
+cp -f ../ss_users.sh /var/sentora/secured/
 
 #Fix insecure permissions
 echo "Fixing insecure permissions..."
 sh ./ss_permissions.sh
-cp -vf ../ss_permissions.sh /var/sentora/secured/
+cp -f ../ss_permissions.sh /var/sentora/secured/
+
+#Setup the cron to automatically update any changes
+echo "A cron is now being setup to monitor over the server for any account changes."
+echo -e "$(crontab -l)\n@hourly /bin/sh /var/sentora/secured/ss_cron.sh" | crontab -
 
 #Backup the original sshd configuraiton
 cp -a /etc/ssh/sshd_config /var/sentora/secured/uninstall/sshd_config
