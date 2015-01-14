@@ -1,5 +1,6 @@
-### PERMISSIONS
-## This is ran as part of the first time installer
+#!/bin/sh
+### PERMISSIONS - ss_permissions.sh
+## This is ran as part of the first time installer to correct vulnerable permissions
 
 #Back up original permission values
 if [[ -f /var/sentora/secured/uninstall/OriginalPermissions.txt ]];
