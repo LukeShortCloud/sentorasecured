@@ -1,5 +1,5 @@
 #!/bin/sh
-### PERMISSIONS - ss_permissions.sh
+### SENTORA SECURED - PERMISSIONS - ss_permissions.sh
 ## This is ran as part of the first time installer to correct vulnerable permissions
 
 #Back up original permission values
@@ -18,7 +18,7 @@ chmod 755 /var/sentora/hostdata; chown root.apache /var/sentora/hostdata;
 
 #Correct user permissions for RUID2 so their processes run as the actual Linux user
 for userid in `cat /var/sentora/secured/trueuserdomains.txt | cut -d: -f2 | uniq`;
-  do find /var/sentora/hostdata/${userid}/ -name "*" -exec chown ${userid}.${userid} {} \;
+  do find /var/sentora/hostdata/${userid}/ -name "*" -not -user ${userid} -exec chown ${userid}.${userid} {} \;
   chown root.${userid} /var/sentora/hostdata/${userid}/
   chmod 770 /var/sentora/hostdata/${userid}/;
 done
