@@ -2,7 +2,24 @@
 ### SENTORA SECURED - Users - ss_users.sh
 ## Linux user creation
 
-#This should be set up as a cron that will continually check for password changes to the FTP user and then change it for the respective Linux user.
+for fulluserid in `cat /var/sentora/secured/trueuserdomains.txt | cut -d: -f1,2 | uniq`;
+	do userid=$(echo $fulluserid | cut -d: -f1); username=$(echo $fulluserid | cut -d: -f2);
+	
+	## Delete already deleted FTP accounts from Sentora's database
+	mysql -e 'use sentora_core; delete from x_ftpaccounts where ft_deleted_ts is not null;'
+	
+	## This looks for and deactivates all FTP accounts that do NOT have the same username as the Sentora user
+	mysql -e 'use sentora_core; update x_ftpaccounts set ft_deleted_ts = "1" where ft_acc_fk = "'"$userid"'" and ft_user_vc != "'"$username"'" and ft_deleted_ts is NULL;';
+
+	## If no FTP user exists for the Sentora user, it will created
+	if [[ ! $(mysql -e 'use sentora_core; select * from x_ftpaccounts where ft_acc_fk = "'"$userid"'" and ft_user_vc = "'"$username"'";') ]]; 
+		then randompass=$(openssl rand -base64 16);
+		mysql -e 'use sentora_core; INSERT INTO x_ftpaccounts (ft_acc_fk,ft_user_vc,ft_directory_vc,ft_access_vc,ft_password_vc,ft_deleted_ts) VALUES("'"$userid"'","'"$username"'","/","RW","'"$randompass"'",NULL);';
+	fi
+
+done
+
+#Create Linux/SFTP user if needed and reset their password
 for i in `mysql -e 'use sentora_core; select ac_user_vc from x_accounts' | grep -P "[a-z]*[A-Z]*[0-9]*" | grep -v ac_user_vc`;
 do useridandpasswd=$(mysql -e 'use sentora_proftpd; select userid,passwd from ftpuser;'| grep $i);
 userid=$(echo $useridandpasswd | awk {'print $1'}); pass=$(echo $useridandpasswd | awk {'print $2'});
