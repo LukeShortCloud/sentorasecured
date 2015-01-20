@@ -24,8 +24,8 @@ for userid in `cat /var/sentora/secured/trueuserdomains.txt | cut -d: -f2 | uniq
 done
 
 #General Sentora permissions fix
-find /etc/sentora -type f -exec chmod 644 {} \;
-find /etc/sentora -type d -exec chmod 755 {} \;
+find /etc/sentora -type f -exec chmod 555 {} \;
+find /etc/sentora -type d -exec chmod 555 {} \;
 chmod 6755 /etc/sentora/panel/bin/zsudo;
 chown root: /root/passwords.txt; chmod 660 /root/passwords.txt;
 chown -R root: /var/sentora/secured/; chmod -R 750 /var/sentora/secured;
