@@ -1,0 +1,16 @@
+###CHANGELOG
+#=-=-=CHANGES SINCE LAST MAJOR RELEASE=-=-=#
+##v0.3
+# Now all FTP accounts will be removed except for the primary one. If none exist with the Sentora username, it will be created
+# Added a modified FTP module (the "SFTP module")
+#
+##v0.2
+# An uninstaller has been added
+# A cron was added in to update passwords and permissions hourly
+# The installer is now more verbose
+#
+##v0.1
+# Setup jailed SFTP (limited-access SSH FTP) accounts 
+# Use suEXEC (or RUID2 if suEXEC is not available) to secure Apache permissions for users
+# Fix general permissions that are bad
+#
