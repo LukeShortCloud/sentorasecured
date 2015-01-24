@@ -23,6 +23,12 @@ echo "Settings up new Linux users for jailed SFTP..."
 sh ./ss_users.sh
 cp -f ../ss_users.sh /var/sentora/secured/
 
+
+#Backup the original FTP module
+echo "Backing up the original Sentora FTP module to /etc/sentora/panel/modules/ftp_management/module.zpm-original"
+mv /etc/sentora/panel/modules/ftp_management/module.zpm{,-original}
+cp ./sftp_management/module.zpm /etc/sentora/panel/modules/ftp_management/module.zpm
+
 #Fix insecure permissions
 echo "Fixing insecure permissions..."
 sh ./ss_permissions.sh
