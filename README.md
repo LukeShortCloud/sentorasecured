@@ -6,7 +6,11 @@ This software is designed to harden the security of the free and open source web
 
 For installing, just run:
 ```bash
-sh installer.sh
+sh install.sh
+```
+Or to uninstall:
+```bash
+sh uninstall.sh
 ```
 
 ###IN-DEPTH EXPLAINATION - What does this script actually do?
