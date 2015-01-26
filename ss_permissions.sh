@@ -20,12 +20,21 @@ chmod 755 /var/sentora/hostdata; chown root.apache /var/sentora/hostdata;
 for userid in `cat /var/sentora/secured/trueuserdomains.txt | cut -d: -f2 | uniq`;
   do find /var/sentora/hostdata/${userid}/ -name "*" -not -user ${userid} -exec chown ${userid}.${userid} {} \;
   chown root.${userid} /var/sentora/hostdata/${userid}/
-  chmod 770 /var/sentora/hostdata/${userid}/;
+  chmod 770 /var/sentora/hostdata/${userid}/; chmod 750 /var/sentora/hostdata/${userid}/public_html /var/sentora/hostdata/${userid}/backups/;
+  for i in `\ls /var/sentora/hostdata/${userid}/public_html/`; 
+    do chmod 750 /var/sentora/hostdata/${userid}/public_html/${i}; 
+  done
 done
 
-#General Sentora permissions fix
+##General Sentora permissions fix
+#Allow only readable and executable access to internal Sentora files
 find /etc/sentora -type f -exec chmod 555 {} \;
 find /etc/sentora -type d -exec chmod 555 {} \;
+#Correct zsudo's special permissions
 chmod 6755 /etc/sentora/panel/bin/zsudo;
+#Make root passwords not viewable!
 chown root: /root/passwords.txt; chmod 660 /root/passwords.txt;
+#Secure "Sentora Secured"'s directory
 chown -R root: /var/sentora/secured/; chmod -R 750 /var/sentora/secured;
+#Correct Sentora's PHP temporary directory permissions
+chmod 1777 /var/sentora/sessions/;
