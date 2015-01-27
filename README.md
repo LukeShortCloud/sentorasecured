@@ -22,3 +22,11 @@ sh uninstall.sh
 * Most of the default insecure permissions of Sentora are corrected.
 
 
+### How do I use it?
+Sentora Secured will replace your FTP module with a slightly modified SFTP module. You can manage your SFTP account password there. It can take up to 1 hour before new passwords are updated and any possibly new Sentora users are updated to have an SFTP account. If you wish to process a manual update, simply run this command as root:
+```bash
+sh /var/sentora/secured/ss_users.sh
+```
+
+
+
