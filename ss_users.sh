@@ -50,5 +50,6 @@ WHERE vh_name_vc="'"$domainname"'";'
 done
 done
 
-#This is now run to rebuild the Apache vhost configuration at /etc/sentora/configs/apache/httpd-vhosts.conf
+#This is now run to rebuild the Apache vhost configurations at /etc/sentora/configs/apache/httpd-vhosts.conf
+mysql -e 'USE sentora_core; UPDATE x_settings SET so_value_tx="true" WHERE so_name_vc="apache_changed";'
 /usr/bin/php /etc/sentora/panel/bin/daemon.php 2&>1 /dev/null
