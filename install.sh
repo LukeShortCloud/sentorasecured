@@ -8,7 +8,7 @@ chown root.root /var/sentora; chmod 770 /var/sentora/
 
 #Disable Pro-FTPD. SSH will be handling SFTP.
 echo "ProFTPD is being disabled. Only SFTP protocols will be allowed for file transfer."
-service proftpd stop; chkconfig proftpd off >> /dev/null 2>; systemctl disable proftpd >> /dev/null 2>;
+service proftpd stop; chkconfig proftpd off 2>&1 /dev/null; systemctl disable proftpd 2>&1 /dev/null;
 
 #Backup the original Sentora MySQL database 
 mysqldump -f sentora_core > /var/sentora/secured/uninstall/sentora_core.sql
@@ -21,7 +21,7 @@ cp -f ./ss_users.sh /var/sentora/secured/
 #Create Linux users
 echo "Settings up new Linux users for jailed SFTP..."
 sh ./ss_users.sh
-cp -f ../ss_users.sh /var/sentora/secured/
+cp -f ./ss_users.sh /var/sentora/secured/
 
 
 #Backup the original FTP module
