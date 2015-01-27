@@ -19,16 +19,18 @@ for fulluserid in `cat /var/sentora/secured/trueuserdomains.txt | cut -d: -f1,2 
 
 done
 
-#Create Linux/SFTP user if needed and reset their password
+#Create Linux/SFTP user
 for i in `mysql -e 'use sentora_core; select ac_user_vc from x_accounts' | grep -P "[a-z]*[A-Z]*[0-9]*" | grep -v ac_user_vc`;
 do useridandpasswd=$(mysql -e 'use sentora_proftpd; select userid,passwd from ftpuser;'| grep $i);
 userid=$(echo $useridandpasswd | awk {'print $1'}); pass=$(echo $useridandpasswd | awk {'print $2'});
-echo "Resetting SFTP password for $userid"
 useradd $userid 2&>1 /dev/null; groupadd $userid 2&>1 /dev/null;
 
 #Set home directory for their hostdata folder, change their default group to themselves, and add them to the sftpusers for jailed SFTP access
 usermod -d /var/sentora/hostdata/$userid -g $userid -a -G sftpusers $userid;
-#MD5 password encryption is used
+
+#Resetting the SFTP password
+#MD5 password encryption is used, this will likely be changed to a stronger encryption type in a later version
+echo "Resetting SFTP password for $userid"
 echo ''$userid':'$pass'' | chpasswd -m;
 done
 
