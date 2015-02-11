@@ -4,13 +4,13 @@
 
 This software is designed to harden the security of the free and open source web hosting panel Sentora. The overall goal is to help strength permissions of various files, folders, and programs related to Sentora. This is built around the beta version of Sentora, v1.0.0, and tested on Red Hat Enterprise Linux based systems (including CentOS). Use at your own risk! Development is still in progress.
 
-For installing, just run:
+For installing, just run the "install.sh" script:
 ```bash
-sh install.sh
+wget https://github.com/ekultails/sentorasecured/archive/master.zip; unzip master.zip; cd ./sentorasecured-master/; sh install.sh
 ```
-Or to uninstall:
+Or to uninstall run the "uninstall.sh":
 ```bash
-sh uninstall.sh
+wget https://github.com/ekultails/sentorasecured/archive/master.zip; unzip master.zip; cd ./sentorasecured-master/; sh uninstall.sh
 ```
 
 ###IN-DEPTH EXPLAINATION - What does this script actually do?
