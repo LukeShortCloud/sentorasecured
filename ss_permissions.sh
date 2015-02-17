@@ -27,13 +27,17 @@ for userid in `cat /var/sentora/secured/trueuserdomains.txt | cut -d: -f2 | uniq
 done
 
 ##General Sentora permissions fix
+
 #Allow only readable and executable access to internal Sentora files
-find /etc/sentora -type f -exec chmod 555 {} \;
-find /etc/sentora -type d -exec chmod 555 {} \;
+#UNCONFIRMED BUG - changing these files and folders to 555 permissions may break some functionality
+#find /etc/sentora -type f -exec chmod 555 {} \;
+#find /etc/sentora -type d -exec chmod 555 {} \;
+
 #Correct zsudo's special permissions
 chmod 6755 /etc/sentora/panel/bin/zsudo;
 #Make root passwords not viewable!
 chown root: /root/passwords.txt; chmod 660 /root/passwords.txt;
+
 #Secure "Sentora Secured"'s directory
 chown -R root: /var/sentora/secured/; chmod -R 750 /var/sentora/secured;
 #Correct Sentora's PHP temporary directory permissions
